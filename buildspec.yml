@@ -9,37 +9,26 @@ env:
 phases:
   pre_build:
     commands:
-      - echo Logging into ECR
+      - echo "Logging into ECR"
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-
-      # 🔥 get current image count → version
+      - echo "Getting version"
       - VERSION=$(aws ecr describe-images --repository-name $IMAGE_REPO_NAME --region $AWS_DEFAULT_REGION --query 'length(imageDetails)' --output text)
       - VERSION=$((VERSION+1))
       - IMAGE_TAG=v$VERSION
-
-      - echo "New Version: $IMAGE_TAG"
+      - echo "Version: $IMAGE_TAG"
 
   build:
     commands:
-      - echo Build started
+      - echo "Build started"
       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
-
-      # version tag
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-
-      # latest tag
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
 
   post_build:
     commands:
-      - echo Pushing image
-
-      # push version
+      - echo "Pushing images"
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-
-      # push latest
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
-
       - printf '[{"name":"nexus-container-backend","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest > imagedefinitions.json
 
 artifacts:
