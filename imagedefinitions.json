@@ -1,0 +1,6 @@
+[
+  {
+    "name": "nexus-app-backend",
+    "imageUri": "895850516918.dkr.ecr.ap-south-1.amazonaws.com/nexus-app-backend:latest"
+  }
+]
