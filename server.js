@@ -203,6 +203,11 @@ io.on('connection', (socket) => {
   });
 });
 
+// ================= HOME ROUTE =================
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
 // ================= START SERVER =================
 const PORT = process.env.PORT || 3000;
 
