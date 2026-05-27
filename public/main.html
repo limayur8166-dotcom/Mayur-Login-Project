@@ -1,381 +1,615 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Main Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nexus Dashboard</title>
+
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: linear-gradient(135deg, #74ebd5, #9face6);
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
     }
 
-    /* Header */
-    header {
-      background: #0072ff;
-      color: #fff;
-      padding: 15px 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    header .user-info {
-      display: flex;
-      flex-direction: column;
-      font-size: 14px;
-      font-weight: normal;
-    }
-    header button {
-      background: #ff4b5c;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    header button:hover {
-      background: #d43f4a;
+    body{
+      background:#f4f7fb;
+      min-height:100vh;
     }
 
-    /* Layout */
-    .main-content {
-      flex: 1;
-      display: flex;
-      padding: 20px;
-      gap: 20px;
+    /* HEADER */
+    .header{
+      width:100%;
+      background:#111827;
+      color:white;
+      padding:18px 30px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
     }
 
-    /* Calendar */
-    .calendar {
-      flex: 2;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      padding: 20px;
-    }
-    .calendar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    .calendar-header h2 {
-      margin: 0;
-    }
-    .calendar-header button {
-      background: #0072ff;
-      border: none;
-      padding: 6px 12px;
-      color: #fff;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .calendar-header button:hover {
-      background: #0056b3;
+    .header h2{
+      font-size:24px;
     }
 
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 8px;
-      text-align: center;
-    }
-    .day-header {
-      font-weight: bold;
-      color: #0072ff;
-    }
-    .day {
-      padding: 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      background: #f5f5f5;
-      transition: 0.3s;
-    }
-    .day:hover {
-      background: #0072ff;
-      color: #fff;
-    }
-    .today {
-      border: 2px solid #0072ff;
+    .user-box{
+      display:flex;
+      align-items:center;
+      gap:15px;
     }
 
-    /* Events */
-    .events {
-      flex: 1;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      padding: 20px;
+    .logout-btn{
+      background:#ef4444;
+      color:white;
+      border:none;
+      padding:10px 16px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:bold;
     }
-    .events h3 {
-      margin-top: 0;
-      text-align: center;
+
+    .logout-btn:hover{
+      background:#dc2626;
     }
-    .event-list {
-      max-height: 300px;
-      overflow-y: auto;
-      margin-bottom: 15px;
+
+    /* DASHBOARD */
+    .dashboard{
+      padding:30px;
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:25px;
     }
-    .event-item {
-      background: #f0f4ff;
-      padding: 8px;
-      border-radius: 6px;
-      margin-bottom: 6px;
+
+    .card{
+      background:white;
+      border-radius:15px;
+      padding:25px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.08);
     }
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-      resize: none;
+
+    .card h3{
+      margin-bottom:20px;
+      color:#111827;
     }
-    button.add-event {
-      margin-top: 8px;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      background: #0072ff;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
+
+    /* USER INFO */
+    .info p{
+      margin-bottom:10px;
+      font-size:16px;
+      color:#374151;
     }
-    button.add-event:hover {
-      background: #0056b3;
+
+    /* CALENDAR */
+    .calendar-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+    }
+
+    .calendar-header button{
+      background:#2563eb;
+      color:white;
+      border:none;
+      padding:8px 14px;
+      border-radius:8px;
+      cursor:pointer;
+    }
+
+    .calendar-grid{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:10px;
+      text-align:center;
+    }
+
+    .day-header{
+      font-weight:bold;
+      color:#2563eb;
+    }
+
+    .day{
+      background:#f3f4f6;
+      padding:12px;
+      border-radius:10px;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    .day:hover{
+      background:#2563eb;
+      color:white;
+    }
+
+    .today{
+      border:2px solid #2563eb;
+    }
+
+    /* EVENTS */
+    .event-box{
+      margin-top:20px;
+    }
+
+    .event-item{
+      background:#eff6ff;
+      padding:10px;
+      border-radius:8px;
+      margin-bottom:10px;
+    }
+
+    textarea{
+      width:100%;
+      margin-top:15px;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid #d1d5db;
+      resize:none;
+    }
+
+    .add-btn{
+      width:100%;
+      margin-top:10px;
+      background:#10b981;
+      color:white;
+      border:none;
+      padding:12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    .add-btn:hover{
+      background:#059669;
+    }
+
+    /* CHAT */
+    .chat-box{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      width:320px;
+      height:420px;
+      background:white;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .chat-header{
+      background:#2563eb;
+      color:white;
+      padding:15px;
+      font-weight:bold;
+    }
+
+    .chat-messages{
+      flex:1;
+      padding:15px;
+      overflow-y:auto;
+      font-size:14px;
+    }
+
+    .chat-input{
+      display:flex;
+      border-top:1px solid #ddd;
+    }
+
+    .chat-input input{
+      flex:1;
+      border:none;
+      padding:12px;
+      outline:none;
+    }
+
+    .chat-input button{
+      background:#2563eb;
+      color:white;
+      border:none;
+      padding:0 18px;
+      cursor:pointer;
+    }
+
+    @media(max-width:900px){
+      .dashboard{
+        grid-template-columns:1fr;
+      }
+
+      .chat-box{
+        width:95%;
+        right:10px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <!-- 🤖 AI CHAT SIDEBAR -->
-<div id="chatBox" style="
-position: fixed;
-right: 20px;
-bottom: 20px;
-width: 300px;
-height: 400px;
-background: white;
-border-radius: 12px;
-box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-display: flex;
-flex-direction: column;
-overflow: hidden;
-z-index:999;
-">
 
-<div style="background:#0072ff;color:white;padding:10px;font-weight:bold;">
-🤖 AI Assistant
-</div>
+  <!-- HEADER -->
+  <div class="header">
+    <h2>Nexus Dashboard 🚀</h2>
 
-<div id="chatMessages" style="flex:1;padding:10px;overflow-y:auto;font-size:14px;"></div>
-
-<div style="display:flex;border-top:1px solid #ddd;">
-<input id="chatInput" placeholder="Ask anything..."
-style="flex:1;border:none;padding:10px;outline:none;">
-<button onclick="sendChat()" style="background:#0072ff;color:white;border:none;padding:10px;">➤</button>
-</div>
-
-</div>
-  
-  <header>
-    <div>
-      Welcome, <span id="userName"></span> 🎉
-      <div class="user-info">
-        <span>Email: <span id="userEmail"></span></span>
-        <span>DOB: <span id="userDOB"></span></span>
-      </div>
+    <div class="user-box">
+      <span id="welcomeUser"></span>
+      <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
-    <button onclick="logout()">Logout</button>
-  </header>
+  </div>
 
-  <div class="main-content">
-    <!-- Calendar -->
-    <div class="calendar">
-      <div class="calendar-header">
-        <button onclick="prevMonth()">⏮ Prev</button>
-        <h2 id="monthYear"></h2>
-        <button onclick="nextMonth()">Next ⏭</button>
+  <!-- DASHBOARD -->
+  <div class="dashboard">
+
+    <!-- LEFT -->
+    <div class="card">
+      <h3>User Information</h3>
+
+      <div class="info">
+        <p><b>Username:</b> <span id="userName"></span></p>
+        <p><b>Email:</b> <span id="userEmail"></span></p>
       </div>
+
+      <br>
+
+      <!-- CALENDAR -->
+      <div class="calendar-header">
+        <button onclick="prevMonth()">Prev</button>
+        <h3 id="monthYear"></h3>
+        <button onclick="nextMonth()">Next</button>
+      </div>
+
       <div class="calendar-grid" id="calendarGrid"></div>
     </div>
 
-    <!-- Events -->
-    <div class="events">
+    <!-- RIGHT -->
+    <div class="card">
       <h3 id="selectedDate">Select a date</h3>
-      <div class="event-list" id="eventList"></div>
-      <textarea id="eventInput" rows="3" placeholder="Add a note or event..."></textarea>
-      <button class="add-event" onclick="addEvent()">Add Event</button>
+
+      <div class="event-box" id="eventList"></div>
+
+      <textarea id="eventInput" rows="4" placeholder="Add event..."></textarea>
+
+      <button class="add-btn" onclick="addEvent()">Add Event</button>
     </div>
+
   </div>
+
+  <!-- CHAT -->
+  <div class="chat-box">
+
+    <div class="chat-header">
+      🤖 AI Assistant
+    </div>
+
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Ask anything...">
+      <button onclick="sendChat()">➤</button>
+    </div>
+
+  </div>
+
 <script>
-async function sendChat(){
-  const input = document.getElementById("chatInput");
-  const msg = input.value;
-  if(!msg) return;
 
-  const chat = document.getElementById("chatMessages");
+  // =========================================
+  // IMPORTANT
+  // =========================================
 
-  chat.innerHTML += `<div><b>You:</b> ${msg}</div>`;
-  input.value="";
+  // CHANGE THIS TO YOUR LOAD BALANCER DNS
+  // Example:
+  // const API_BASE = "http://my-lb-123.ap-south-1.elb.amazonaws.com";
 
-  const typing = document.createElement("div");
-  typing.innerText="🤖 typing...";
-  chat.appendChild(typing);
+  const API_BASE = "http://YOUR-LOAD-BALANCER-DNS";
 
-  const res = await fetch("http://localhost:3000/api/chat",{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body: JSON.stringify({ message: msg })
-  });
 
-  const data = await res.json();
 
-  typing.remove();
+  // =========================================
+  // AUTH CHECK
+  // =========================================
 
-  chat.innerHTML += `<div><b>AI:</b> ${data.reply}</div>`;
+  const token = localStorage.getItem("nexus_token");
+  const user = JSON.parse(localStorage.getItem("nexus_user"));
 
-  chat.scrollTop = chat.scrollHeight;
-}
-</script>
-  <script>
-    // Auth guard
-    const token    = localStorage.getItem("nexus_token");
-    const userData = JSON.parse(localStorage.getItem("nexus_user") || "null");
-    if (!token || !userData) {
-      alert("No user logged in. Redirecting...");
-      window.location.href = "index.html";
+  if(!token || !user){
+    alert("Please login first");
+    window.location.href = "index.html";
+  }
+
+  document.getElementById("welcomeUser").innerText =
+    "Welcome " + user.username;
+
+  document.getElementById("userName").innerText =
+    user.username;
+
+  document.getElementById("userEmail").innerText =
+    user.email;
+
+
+
+  // =========================================
+  // LOGOUT
+  // =========================================
+
+  function logout(){
+    localStorage.removeItem("nexus_token");
+    localStorage.removeItem("nexus_user");
+
+    window.location.href = "index.html";
+  }
+
+
+
+  // =========================================
+  // CHAT API
+  // =========================================
+
+  async function sendChat(){
+
+    const input = document.getElementById("chatInput");
+    const msg = input.value.trim();
+
+    if(!msg) return;
+
+    const chat = document.getElementById("chatMessages");
+
+    chat.innerHTML += `
+      <div style="margin-bottom:10px;">
+        <b>You:</b> ${msg}
+      </div>
+    `;
+
+    input.value = "";
+
+    try{
+
+      const res = await fetch(`${API_BASE}/api/chat`,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":"Bearer " + token
+        },
+        body:JSON.stringify({
+          message:msg
+        })
+      });
+
+      const data = await res.json();
+
+      chat.innerHTML += `
+        <div style="margin-bottom:15px;color:#2563eb;">
+          <b>AI:</b> ${data.reply}
+        </div>
+      `;
+
+      chat.scrollTop = chat.scrollHeight;
+
+    }catch(err){
+
+      chat.innerHTML += `
+        <div style="color:red;">
+          Server not reachable
+        </div>
+      `;
+
+    }
+  }
+
+
+
+  // =========================================
+  // CALENDAR
+  // =========================================
+
+  const monthYear =
+    document.getElementById("monthYear");
+
+  const calendarGrid =
+    document.getElementById("calendarGrid");
+
+  const eventList =
+    document.getElementById("eventList");
+
+  const eventInput =
+    document.getElementById("eventInput");
+
+  const selectedDateEl =
+    document.getElementById("selectedDate");
+
+  let today = new Date();
+
+  let currentMonth = today.getMonth();
+  let currentYear = today.getFullYear();
+
+  let selectedDate = null;
+
+  const months = [
+    "January","February","March",
+    "April","May","June",
+    "July","August","September",
+    "October","November","December"
+  ];
+
+  const days = [
+    "Sun","Mon","Tue",
+    "Wed","Thu","Fri","Sat"
+  ];
+
+
+
+  function renderCalendar(month, year){
+
+    calendarGrid.innerHTML = "";
+
+    monthYear.innerText =
+      `${months[month]} ${year}`;
+
+    // DAY HEADERS
+    for(let d of days){
+
+      const head =
+        document.createElement("div");
+
+      head.classList.add("day-header");
+
+      head.innerText = d;
+
+      calendarGrid.appendChild(head);
     }
 
-    // Display user info
-    document.getElementById("userName").textContent  = userData.username;
-    document.getElementById("userEmail").textContent = userData.email;
-    document.getElementById("userDOB").textContent   = userData.dob || "\u2014";
+    const firstDay =
+      new Date(year, month, 1).getDay();
 
-    // Logout
-    function logout() {
-      localStorage.removeItem("nexus_token");
-      localStorage.removeItem("nexus_user");
-      window.location.href = "index.html";
+    const totalDays =
+      new Date(year, month + 1, 0).getDate();
+
+    // EMPTY CELLS
+    for(let i=0; i<firstDay; i++){
+
+      const empty =
+        document.createElement("div");
+
+      calendarGrid.appendChild(empty);
     }
 
-    const currentUser = userData.username;
+    // DATES
+    for(let d=1; d<=totalDays; d++){
 
-    // Calendar
-    const monthYear = document.getElementById("monthYear");
-    const calendarGrid = document.getElementById("calendarGrid");
-    const eventList = document.getElementById("eventList");
-    const eventInput = document.getElementById("eventInput");
-    const selectedDateEl = document.getElementById("selectedDate");
+      const day =
+        document.createElement("div");
 
-    let today = new Date();
-    let currentMonth = today.getMonth();
-    let currentYear = today.getFullYear();
-    let selectedDate = null;
+      day.classList.add("day");
 
-    const months = [
-      "January","February","March","April","May","June",
-      "July","August","September","October","November","December"
-    ];
-    const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      day.innerText = d;
 
-    function renderCalendar(month, year) {
-      calendarGrid.innerHTML = "";
-      monthYear.textContent = `${months[month]} ${year}`;
-
-      // Week headers
-      for (let d of days) {
-        const header = document.createElement("div");
-        header.textContent = d;
-        header.classList.add("day-header");
-        calendarGrid.appendChild(header);
+      if(
+        d === today.getDate() &&
+        month === today.getMonth() &&
+        year === today.getFullYear()
+      ){
+        day.classList.add("today");
       }
 
-      const firstDay = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      day.onclick = () =>
+        selectDate(d, month, year);
 
-      // Empty spaces
-      for (let i = 0; i < firstDay; i++) {
-        const empty = document.createElement("div");
-        calendarGrid.appendChild(empty);
-      }
-
-      // Dates
-      for (let date = 1; date <= daysInMonth; date++) {
-        const cell = document.createElement("div");
-        cell.textContent = date;
-        cell.classList.add("day");
-
-        if (date === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-          cell.classList.add("today");
-        }
-
-        cell.onclick = () => selectDate(date, month, year);
-        calendarGrid.appendChild(cell);
-      }
+      calendarGrid.appendChild(day);
     }
+  }
 
-    function prevMonth() {
-      currentMonth--;
-      if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-      }
-      renderCalendar(currentMonth, currentYear);
-    }
 
-    function nextMonth() {
-      currentMonth++;
-      if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-      }
-      renderCalendar(currentMonth, currentYear);
-    }
 
-    function selectDate(date, month, year) {
-      selectedDate = `${year}-${month+1}-${date}`;
-      selectedDateEl.textContent = `Events on ${date} ${months[month]} ${year}`;
-      loadEvents();
-    }
+  function prevMonth(){
 
-    function loadEvents() {
-      eventList.innerHTML = "";
-      const events = JSON.parse(localStorage.getItem(`${currentUser}_events`)) || {};
-      if (events[selectedDate]) {
-        events[selectedDate].forEach(ev => {
-          const div = document.createElement("div");
-          div.classList.add("event-item");
-          div.textContent = ev;
-          eventList.appendChild(div);
-        });
-      }
-    }
+    currentMonth--;
 
-    function addEvent() {
-      if (!selectedDate) {
-        alert("Please select a date first.");
-        return;
-      }
-      const text = eventInput.value.trim();
-      if (!text) return;
-
-      let events = JSON.parse(localStorage.getItem(`${currentUser}_events`)) || {};
-      if (!events[selectedDate]) events[selectedDate] = [];
-      events[selectedDate].push(text);
-
-      localStorage.setItem(`${currentUser}_events`, JSON.stringify(events));
-      eventInput.value = "";
-      loadEvents();
+    if(currentMonth < 0){
+      currentMonth = 11;
+      currentYear--;
     }
 
     renderCalendar(currentMonth, currentYear);
-  </script>
+  }
+
+
+
+  function nextMonth(){
+
+    currentMonth++;
+
+    if(currentMonth > 11){
+      currentMonth = 0;
+      currentYear++;
+    }
+
+    renderCalendar(currentMonth, currentYear);
+  }
+
+
+
+  function selectDate(date, month, year){
+
+    selectedDate =
+      `${year}-${month+1}-${date}`;
+
+    selectedDateEl.innerText =
+      `Events on ${date} ${months[month]} ${year}`;
+
+    loadEvents();
+  }
+
+
+
+  function loadEvents(){
+
+    eventList.innerHTML = "";
+
+    const events =
+      JSON.parse(
+        localStorage.getItem(`${user.username}_events`)
+      ) || {};
+
+    if(events[selectedDate]){
+
+      events[selectedDate].forEach(ev => {
+
+        const div =
+          document.createElement("div");
+
+        div.classList.add("event-item");
+
+        div.innerText = ev;
+
+        eventList.appendChild(div);
+
+      });
+    }
+  }
+
+
+
+  function addEvent(){
+
+    if(!selectedDate){
+
+      alert("Select a date first");
+
+      return;
+    }
+
+    const text =
+      eventInput.value.trim();
+
+    if(!text) return;
+
+    let events =
+      JSON.parse(
+        localStorage.getItem(`${user.username}_events`)
+      ) || {};
+
+    if(!events[selectedDate]){
+      events[selectedDate] = [];
+    }
+
+    events[selectedDate].push(text);
+
+    localStorage.setItem(
+      `${user.username}_events`,
+      JSON.stringify(events)
+    );
+
+    eventInput.value = "";
+
+    loadEvents();
+  }
+
+
+
+  // START
+  renderCalendar(currentMonth, currentYear);
+
+</script>
+
 </body>
 </html>
